@@ -1,0 +1,48 @@
+@model LoginViewModel
+
+<div class=" w-100 h-100 d-flex justify-content-center align-items-center">
+    <di style="width: 500px;" class="card">
+        <div class="card-header">
+            <span class="fw-bold">Login</span>
+        </div>
+
+        <div class="card-body">
+            <div class="form-group">
+                <label asp-for="@Model.Username"></label>
+                <input type="text" asp-for="@Model.Username" class="form-control">
+                <span asp-validation-for="@Model.Username"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Password"></label>
+                <input asp-for="@Model.Password" type="password" class="form-control">
+                <span asp-validation-for="@Model.Password"></span>
+            </div>
+        </div>
+
+        <div class="card-footer d-flex justify-content-center">
+            <button id="js-login-btn" class="btn btn-primary w-100 my-2 mx-1">Login</button>
+        </div>
+</div>
+</div>
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $("#js-login-btn").on("click", function () {
+                $.post({
+                    url: "/Auth/Login",
+                    data: {
+                        username: $("input[name='Username']").val(),
+                        password: $("input[name='Password']").val()
+                    },
+                    success: function (res) {
+                        if (res == "") {
+                            window.location.href = "/Dashboard/Index"
+                        }
+                    }
+                })
+            });
+        });
+    </script>
+}
